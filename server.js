@@ -32,8 +32,10 @@ io.on('connection', (socket) => {
   socket.on('check login', (data) => {
     var validated = false;
     var temp = JSON.parse(fs.readFileSync('db.json'));
-    if (temp[data.userHash].pswdHash == data.pswdHash) {
-      validated = true;
+    if (temp[data.userHash]) {
+      if (temp[data.userHash].pswdHash == data.pswdHash) {
+        validated = true;
+      }
     }
     io.emit('check login', validated);
   });
@@ -60,7 +62,7 @@ app.get("/signup", function (req, res) {
 });
 
 app.get("/logout", function (req, res) {
-  res.render("logout");
+  res.send("<script src=\"logout.js\"></script>");
 });
 
 app.get("/login.js", function (req, res) {
@@ -71,8 +73,8 @@ app.get("/signup.js", function (req, res) {
   res.sendFile(`${__dirname}/signup.js`);
 });
 
-app.get("/login-tll.js", function (req, res) {
-  res.sendFile(`${__dirname}/login-tll.js`);
+app.get("/logout.js", function (req, res) {
+  res.sendFile(`${__dirname}/logout.js`);
 });
 
 var server = http.listen(process.env.PORT || 2050, function () {
