@@ -18,8 +18,14 @@ app.use(function(req, res, next) {
 io.on('connection', (socket) => {
   socket.on('signup', (data) => {
     var temp = JSON.parse(fs.readFileSync('db.json'));
-    temp[data.userHash] = {encryptedKey:data.encryptedKey,iv:data.iv,pswdHash:data.pswdHash,email:data.email,name:data.name};
-    fs.writeFileSync('db.json', JSON.stringify(temp,null,2));
+    temp[data.userHash] = {
+      encryptedKey: data.encryptedKey,
+      iv: data.iv,
+      pswdHash: data.pswdHash,
+      email: data.email,
+      name: data.name
+    };
+    fs.writeFileSync('db.json', JSON.stringify(temp, null, 2));
   });
   socket.on('check user', (userHash) => {
     var exists = false;
@@ -41,11 +47,19 @@ io.on('connection', (socket) => {
   });
   socket.on('get email', (userHash) => {
     var temp = JSON.parse(fs.readFileSync('db.json'));
-    io.to(socket.id).emit('get email', {email:temp[userHash].email,iv:temp[userHash].iv,encryptedKey:temp[userHash].encryptedKey});
+    io.to(socket.id).emit('get email', {
+      email: temp[userHash].email,
+      iv: temp[userHash].iv,
+      encryptedKey: temp[userHash].encryptedKey
+    });
   });
   socket.on('get name', (userHash) => {
     var temp = JSON.parse(fs.readFileSync('db.json'));
-    io.to(socket.id).emit('get name', {name:temp[userHash].name,iv:temp[userHash].iv,encryptedKey:temp[userHash].encryptedKey});
+    io.to(socket.id).emit('get name', {
+      name: temp[userHash].name,
+      iv: temp[userHash].iv,
+      encryptedKey: temp[userHash].encryptedKey
+    });
   });
 });
 

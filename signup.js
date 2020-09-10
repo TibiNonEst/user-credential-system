@@ -8,7 +8,7 @@ $(function () {
   });
   socket.on("check user", function(callback){
     if (!callback) {
-      var salt = CryptoJS.SHA3($("#email").val()+$("#email").val().length+$("#password").val()).toString();
+      var salt = CryptoJS.SHA3($("#email").val() + $("#email").val().length + $("#password").val()).toString();
       var key = CryptoJS.PBKDF2($("#password").val(), salt, {keySize: 512 / 32, iterations: 10000}).toString();
       var iv = CryptoJS.lib.WordArray.random(512 / 8).toString();
       var userKey = CryptoJS.lib.WordArray.random(512 / 8).toString();
