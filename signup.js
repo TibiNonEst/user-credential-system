@@ -26,7 +26,7 @@ $(function () {
       });
       localStorage.userKey = key;
       localStorage.userHash = userHash;
-      window.location.replace("/");
+      window.location.assign("/");
     } else {
       console.log("There is already an account with that email!");
     }

@@ -1,3 +1,3 @@
 localStorage.removeItem("userKey");
 localStorage.removeItem("userHash");
-window.location.replace("/");
+window.location.assign("/");

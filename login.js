@@ -13,7 +13,7 @@ $(function () {
       var key = CryptoJS.PBKDF2($("#password").val(), salt, {keySize: 512 / 32, iterations: 10000}).toString();
       localStorage.userKey = key;
       localStorage.userHash = userHash;
-      window.location.replace("/");
+      window.location.assign("/");
     } else{
       console.log("Your email or password is incorrect")
     }
