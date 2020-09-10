@@ -16,3 +16,9 @@ This is achieved by encrypting, hashing, and processing all user data on the cli
 - **Why do you code in pug insted of html?**
 
     The choice to code in pug is completely by personal preference, and does nothing in terms of security. I find that pug code is generally easier to read and has additional functionality similar to PHP, but the whole site could be done in html if you so chose.
+
+## To-Do
+- Add MongoDB functionality
+- Add SQL functionality
+- Add config file to chose between different hashing and encryption algorithms, and database types
+- Make it look pretty
