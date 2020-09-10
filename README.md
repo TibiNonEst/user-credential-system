@@ -1,4 +1,4 @@
-# Basic user credential system
+# Basic User Credential System
 A secure login/credentials system meant to keep all data away from servers
 
 **NOTE: This project is still in alpha stage, it is highly subject to change, and the security it aims to achieve is not yet fully implemented!**
