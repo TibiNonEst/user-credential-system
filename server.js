@@ -27,7 +27,7 @@ io.on('connection', (socket) => {
     if (temp[userHash]) {
       exists = true;
     }
-    io.emit('check user', exists);
+    io.to(socket.id).emit('check user', exists);
   });
   socket.on('check login', (data) => {
     var validated = false;
@@ -37,15 +37,15 @@ io.on('connection', (socket) => {
         validated = true;
       }
     }
-    io.emit('check login', validated);
+    io.to(socket.id).emit('check login', validated);
   });
   socket.on('get email', (userHash) => {
     var temp = JSON.parse(fs.readFileSync('db.json'));
-    io.emit('get email', {email:temp[userHash].email,iv:temp[userHash].iv,encryptedKey:temp[userHash].encryptedKey});
+    io.to(socket.id).emit('get email', {email:temp[userHash].email,iv:temp[userHash].iv,encryptedKey:temp[userHash].encryptedKey});
   });
   socket.on('get name', (userHash) => {
     var temp = JSON.parse(fs.readFileSync('db.json'));
-    io.emit('get name', {name:temp[userHash].name,iv:temp[userHash].iv,encryptedKey:temp[userHash].encryptedKey});
+    io.to(socket.id).emit('get name', {name:temp[userHash].name,iv:temp[userHash].iv,encryptedKey:temp[userHash].encryptedKey});
   });
 });
 
@@ -62,7 +62,7 @@ app.get("/signup", function (req, res) {
 });
 
 app.get("/logout", function (req, res) {
-  res.send("<script src=\"logout.js\"></script>");
+  res.send("<script src='logout.js'></script>");
 });
 
 app.get("/login.js", function (req, res) {
