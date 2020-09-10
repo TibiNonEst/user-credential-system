@@ -1,0 +1,9 @@
+doctype html
+html(lang="en")
+  head
+    script(src="https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/crypto-js.min.js")
+  body
+    script.
+      localStorage.removeItem("userKey");
+      localStorage.removeItem("userHash");
+      window.location.replace("/");
