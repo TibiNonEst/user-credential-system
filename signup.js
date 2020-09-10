@@ -26,13 +26,6 @@ $(function () {
       });
       localStorage.userKey = key;
       localStorage.userHash = userHash;
-      //if ($("#remember").is(":checked")) {
-      //  localStorage.userKey = key;
-      //  var unixTime = Math.floor(Date.now() / 1000);
-      //  localStorage.loginTTL = unixTime + 604800;
-      //} else {
-      //  sessionStorage.userKey = key;
-      //}
       window.location.replace("/");
     } else {
       console.log("There is already an account with that email!");
