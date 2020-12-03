@@ -1,36 +1,15 @@
-// This whole page is temporary, sorry if it's hard to read, it'll be easier in the final release
-
 doctype html
 html(lang="en")
   head
-    link(rel="stylesheet",href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css",integrity="sha256-Ww++W3rXBfapN8SZitAvc9jw2Xb+Ixt0rvDsmWmQyTo=",crossorigin="anonymous")
+    meta(charset="utf-8")
+    meta(http-equiv="x-ua-compatible",content="ie=edge")
+    meta(name="viewport",content="width=device-width, initial-scale=1.0")
+    meta(name="author",content="Tobey Vorus")
+    link(rel="stylesheet",href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css",integrity="sha256-93wNFzm2GO3EoByj9rKZCwGjAJAwr0nujPaOgwUt8ZQ=",crossorigin="anonymous")
     script(src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js",integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=",crossorigin="anonymous")
-    script(src="https://cdn.jsdelivr.net/npm/socket.io-client@2.3.0/dist/socket.io.js",integrity="sha256-bQmrZe4yPnQrLTY+1gYylfNMBuGfnT/HKsCGX+9Xuqo=",crossorigin="anonymous")
+    script(src="https://cdn.jsdelivr.net/npm/socket.io-client@3.0.3/dist/socket.io.min.js",integrity="sha256-XWbNjAL+l0aYPimukCxoI/339U3AEFXDR3lnrXADLxU=",crossorigin="anonymous")
     script(src="https://cdn.jsdelivr.net/npm/crypto-js@4.0.0/crypto-js.min.js")
+    script(src="/main.js")
   body.p-2
     p.mb-0#email
     p#name
-    script.
-      $(function () {
-        var socket = io();
-        socket.emit("check user", localStorage.userHash);
-        socket.on("check user", function(callback) {
-          if (callback) {
-            socket.emit("get email", localStorage.userHash);
-            socket.emit("get name", localStorage.userHash);
-          } else {
-            $("body").html('<a class="btn btn-primary mr-2" href="login">Login</a><a class="btn btn-primary mr-2" href="signup">Sign Up</a>');
-          }
-        });
-        socket.on("get email", function (data) {
-          var userKey = CryptoJS.AES.decrypt(data.encryptedKey, localStorage.userKey, {mode: CryptoJS.mode.CTR, iv: data.iv}).toString(CryptoJS.enc.Utf8);
-          var email = CryptoJS.AES.decrypt(data.email, userKey, {mode: CryptoJS.mode.CTR, iv: data.iv}).toString(CryptoJS.enc.Utf8);
-          $("#email").html(`Email: ${email}`);
-        });
-        socket.on("get name", function (data) {
-          var userKey = CryptoJS.AES.decrypt(data.encryptedKey, localStorage.userKey, {mode: CryptoJS.mode.CTR, iv: data.iv}).toString(CryptoJS.enc.Utf8);
-          var name = CryptoJS.AES.decrypt(data.name, userKey, {mode: CryptoJS.mode.CTR, iv: data.iv}).toString(CryptoJS.enc.Utf8);
-          $("#name").html(`Name: ${name}`);
-          $("body").append('<a class="btn btn-primary mr-2" href="logout">Logout</a>');
-        });
-      });

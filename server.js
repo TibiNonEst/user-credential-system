@@ -1,8 +1,8 @@
-var express = require("express");
-var fs = require("fs");
-var app = express();
-var http = require("http").Server(app);
-var io = require("socket.io")(http);
+const express = require("express");
+const fs = require("fs");
+const app = express();
+const http = require("http").Server(app);
+const io = require("socket.io")(http);
 
 app.set("view engine", "pug");
 app.set("views","./");
@@ -17,7 +17,7 @@ app.use(function(req, res, next) {
 
 io.on('connection', (socket) => {
   socket.on('signup', (data) => {
-    var temp = JSON.parse(fs.readFileSync('db.json'));
+    let temp = JSON.parse(fs.readFileSync('db.json'));
     temp[data.userHash] = {
       encryptedKey: data.encryptedKey,
       iv: data.iv,
@@ -28,16 +28,16 @@ io.on('connection', (socket) => {
     fs.writeFileSync('db.json', JSON.stringify(temp, null, 2));
   });
   socket.on('check user', (userHash) => {
-    var exists = false;
-    var temp = JSON.parse(fs.readFileSync('db.json'));
+    let exists = false;
+    const temp = JSON.parse(fs.readFileSync('db.json'));
     if (temp[userHash]) {
       exists = true;
     }
     io.to(socket.id).emit('check user', exists);
   });
   socket.on('check login', (data) => {
-    var validated = false;
-    var temp = JSON.parse(fs.readFileSync('db.json'));
+    let validated = false;
+    const temp = JSON.parse(fs.readFileSync('db.json'));
     if (temp[data.userHash]) {
       if (temp[data.userHash].pswdHash == data.pswdHash) {
         validated = true;
@@ -46,7 +46,7 @@ io.on('connection', (socket) => {
     io.to(socket.id).emit('check login', validated);
   });
   socket.on('get email', (userHash) => {
-    var temp = JSON.parse(fs.readFileSync('db.json'));
+    const temp = JSON.parse(fs.readFileSync('db.json'));
     io.to(socket.id).emit('get email', {
       email: temp[userHash].email,
       iv: temp[userHash].iv,
@@ -54,7 +54,7 @@ io.on('connection', (socket) => {
     });
   });
   socket.on('get name', (userHash) => {
-    var temp = JSON.parse(fs.readFileSync('db.json'));
+    const temp = JSON.parse(fs.readFileSync('db.json'));
     io.to(socket.id).emit('get name', {
       name: temp[userHash].name,
       iv: temp[userHash].iv,
@@ -79,6 +79,10 @@ app.get("/logout", function (req, res) {
   res.send("<script src='logout.js'></script>");
 });
 
+app.get("/main.js", function (req, res) {
+  res.sendFile(`${__dirname}/main.js`);
+});
+
 app.get("/login.js", function (req, res) {
   res.sendFile(`${__dirname}/login.js`);
 });
@@ -91,8 +95,8 @@ app.get("/logout.js", function (req, res) {
   res.sendFile(`${__dirname}/logout.js`);
 });
 
-var server = http.listen(process.env.PORT || 2050, function () {
-  var host = server.address().address;
-  var port = server.address().port;
+const server = http.listen(process.env.PORT || 2050, function () {
+  const host = server.address().address;
+  const port = server.address().port;
   console.log("Server running at http://%s:%s", host, port);
 });
